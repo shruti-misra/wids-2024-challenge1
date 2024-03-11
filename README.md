@@ -34,7 +34,7 @@ Demographic features included the following features as they pertain to the pati
 * Commute time
 * Health insurance (uninsured vs. not uninsured)
 
-# Exploratory Data Analysis (file WiDS_Datathon_EDA.ipynb)
+# Exploratory Data Analysis (WiDS_Datathon_EDA.ipynb)
 
 EDA for this dataset consisted of 
 * Plotting the distribution of each variable
@@ -42,6 +42,38 @@ EDA for this dataset consisted of
 * Conducting a bivariate analysis by looking at the distribution of the features with respect to different values of the target (diagnosed on time vs. not)
 
 ## Key observations
+
+* The dataset is unbalanced with more cases being diagnosed on time than not
+* All patients are female, therefore the patient_gender column can be dropped as it doesn't add new information
+* Only one treatment type is represented for the Metastatic_first_novel_treatment_type variable, so this column can be dropped
+* Multiple significant correlations were observed between different variables indicating that there are many redundant features in the data. Therefore, some features will have to be dropped to build a predictive model (see section on feature selection).
+* Feature distributions for both types of diagnosis periods (above and below 90 days) are similar. There seem to be no outliers.
+
+# Null Values and encoding
+
+The null and missing values were dealt with as follows:
+
+1. Remove columns where over half the values are null
+2. Remove rows with more than 2 null values
+3. Drop patient_gender (all female) and patient_race (mostly white, a lot of imbalance)
+4. The rest of the missing values for numerical were filled in using the median as many of the distributions were skewed.
+5. The missing values for the categorical variables were filled using the mode.
+
+Three encoding schemes were explore for this project
+
+1. One hot encoding was used to begin with as none of the categorical categories had any natural order
+2. OrdinalEncoder
+3. LabelEncoder (performed the best)
+
+# Feature Selection (WiDS_Datathon_FeatureSelection.ipynb)
+
+Given the many correlations and redundant variables in the dataset, three strategies were explored to select the appropriate features. 
+
+### Remove high correlations
+
+Features that are highly correlated often have redundant information in them, so I tried to remove them
+
+
 
 
 

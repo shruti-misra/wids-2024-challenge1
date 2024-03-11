@@ -67,11 +67,25 @@ Three encoding schemes were explore for this project
 
 # Feature Selection (WiDS_Datathon_FeatureSelection.ipynb)
 
-Given the many correlations and redundant variables in the dataset, three strategies were explored to select the appropriate features. 
+Given the many correlations and redundant variables in the dataset, three strategies were explored to select the appropriate features. To start, we considered one-hot encoded categorical features and an XGBoost classifier. The following feature selection techniques were compared.
 
-### Remove high correlations
+### 1.Remove high correlations
 
-Features that are highly correlated often have redundant information in them, so I tried to remove them
+Features that are highly correlated often have redundant information in them, so we tried to remove them. High correlation was defined has columns having correlation over 0.98. Columns that were removed due to high correlations were ['female', 'housing_units', 'Division_Middle Atlantic']
+
+### 2.Remove columns with low variance
+
+Columns that have low variance do not add a lot of information either because they are not really changing. Low variance was defined as columns having variance below 0.1. No columns were removed in this case.
+
+### 3.Use Lasso Regression to identify important features
+
+Lasso regression is typically used for feature selection. In this case, a lasso regressor is fit to the data and features that do not contribute to predicting that target value end up with 0 coefficients. In this case, the top 10 most important features were breast_cancer_diagnosis_code, breast_cancer_diagnosis_desc, metastatic_cancer_diagnosis_code, home_value, patient_age, payer_type, commute_time, family_size, patient_zip, income_household. The lasso regressor model illustrated that the diagnosis code and description played a key role on whether breast cancer was predicted in a timely manner or now. 
+
+Of all feature selection techniques, the lasso regressor performed best with the XGBoost model (top 10 features giving the best performance with 5-fold CV, at 81.0%). The model accuracy was tested with top N features, with N being in the range of 10-80, that is from top 10 most important features to all features. The following performance was achieved with different feature selection techniques:
+
+* Removing high correlations: 78.6%
+* Remove columns with low variance: 78.1%
+* Use Lasso Regression to identify important features (with 10 most important features): 81.0%
 
 
 
